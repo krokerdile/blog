@@ -139,13 +139,13 @@ The Hyunu Blog project uses a monorepo architecture managed with yarn workspaces
 
 ### Blog (Frontend)
 - **Platform**: Vercel (recommended) / Netlify / any static host
-- **Build Command**: `yarn build --filter @hyunu/blog`
+- **Build Command**: `yarn workspace @hyunu/blog build`
 - **Output Directory**: `apps/blog/.next`
 - **Environment**: Edge/Node.js runtime
 
 ### Backend (API)
 - **Platform**: Railway / Render / AWS / Docker
-- **Build Command**: `yarn build --filter @hyunu/backend`
+- **Build Command**: `yarn workspace @hyunu/backend build`
 - **Start Command**: `node apps/backend/dist/index.js`
 - **Port**: 3001 (configurable via ENV)
 
