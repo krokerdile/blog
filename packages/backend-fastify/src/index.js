@@ -34,6 +34,15 @@ app.get('/api/posts', async (request, reply) => {
 
 app.post('/api/posts', async (request, reply) => {
   const { title, content } = request.body;
+  
+  if (!title || !content) {
+    reply.code(400);
+    return {
+      error: 'Bad Request',
+      message: 'Title and content are required'
+    };
+  }
+  
   reply.code(201);
   return {
     id: 3,

@@ -39,13 +39,13 @@ Koa - Modern web framework designed by the team behind Express, with async/await
 
 ### Install Dependencies
 
-From the root directory:
+From the root directory (npm workspaces will handle all packages):
 
 ```bash
-npm run install-all
+npm install
 ```
 
-Or install individually in each package:
+Or install individually in each package if needed:
 
 ```bash
 cd packages/backend-express && npm install

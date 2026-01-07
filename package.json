@@ -7,7 +7,6 @@
     "packages/*"
   ],
   "scripts": {
-    "install-all": "npm install && cd packages/backend-express && npm install && cd ../backend-fastify && npm install && cd ../backend-koa && npm install",
     "start:express": "cd packages/backend-express && npm start",
     "start:fastify": "cd packages/backend-fastify && npm start",
     "start:koa": "cd packages/backend-koa && npm start"

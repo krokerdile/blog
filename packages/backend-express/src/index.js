@@ -35,6 +35,14 @@ app.get('/api/posts', (req, res) => {
 
 app.post('/api/posts', (req, res) => {
   const { title, content } = req.body;
+  
+  if (!title || !content) {
+    return res.status(400).json({
+      error: 'Bad Request',
+      message: 'Title and content are required'
+    });
+  }
+  
   res.status(201).json({
     id: 3,
     title,

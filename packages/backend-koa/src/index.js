@@ -6,10 +6,7 @@ const app = new Koa();
 const router = new Router();
 const PORT = process.env.PORT || 3002;
 
-// Middleware
-app.use(bodyParser());
-
-// Error handling middleware
+// Error handling middleware (should be first)
 app.use(async (ctx, next) => {
   try {
     await next();
@@ -22,6 +19,9 @@ app.use(async (ctx, next) => {
     console.error('Error:', err);
   }
 });
+
+// Middleware
+app.use(bodyParser());
 
 // Routes
 router.get('/', async (ctx) => {
@@ -51,6 +51,16 @@ router.get('/api/posts', async (ctx) => {
 
 router.post('/api/posts', async (ctx) => {
   const { title, content } = ctx.request.body;
+  
+  if (!title || !content) {
+    ctx.status = 400;
+    ctx.body = {
+      error: 'Bad Request',
+      message: 'Title and content are required'
+    };
+    return;
+  }
+  
   ctx.status = 201;
   ctx.body = {
     id: 3,
