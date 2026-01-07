@@ -48,23 +48,23 @@ This will start:
 
 ```bash
 # Start only the blog
-yarn --filter @hyunu/blog dev
+yarn workspace @hyunu/blog dev
 
 # Start only the backend
-yarn --filter @hyunu/backend dev
+yarn workspace @hyunu/backend dev
 ```
 
 ### Build Specific App
 
 ```bash
 # Build the blog
-yarn --filter @hyunu/blog build
+yarn workspace @hyunu/blog build
 
 # Build the backend
-yarn --filter @hyunu/backend build
+yarn workspace @hyunu/backend build
 
 # Build the UI package
-yarn --filter @hyunu/ui build
+yarn workspace @hyunu/ui build
 ```
 
 ## Adding New Packages
@@ -197,7 +197,7 @@ export * from './NewComponent';
 3. Build the UI package:
 
 ```bash
-yarn --filter @hyunu/ui build
+yarn workspace @hyunu/ui build
 ```
 
 ### Using UI Components in Apps
@@ -279,27 +279,31 @@ NODE_ENV=production
 
 ```bash
 # Add dependency to specific package
-yarn --filter @hyunu/blog add package-name
+yarn workspace @hyunu/blog add package-name
 
 # Add dev dependency to specific package
-yarn --filter @hyunu/blog add -D package-name
+yarn workspace @hyunu/blog add -D package-name
 
 # Add dependency to all packages
-yarn -r add package-name
+# (requires adding to each workspace individually in Yarn v1)
+yarn workspace @hyunu/blog add package-name
+yarn workspace @hyunu/backend add package-name
+yarn workspace @hyunu/ui add package-name
 
 # Update all dependencies
-yarn update -r
+yarn upgrade
 ```
 
 ### Workspace Protocol
 
-Use `workspace:*` to reference internal packages:
+Use `*` to reference internal packages in Yarn v1:
 
 ```json
 {
   "dependencies": {
-    "@hyunu/ui": "workspace:*"
+    "@hyunu/ui": "*"
   }
+}
 }
 ```
 
