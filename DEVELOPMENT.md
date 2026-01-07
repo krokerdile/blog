@@ -304,7 +304,6 @@ Use `*` to reference internal packages in Yarn v1:
     "@hyunu/ui": "*"
   }
 }
-}
 ```
 
 ### Turbo Cache
