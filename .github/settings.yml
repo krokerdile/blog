@@ -17,10 +17,6 @@ repository:
   
   # Automatically delete head branches after pull requests are merged
   delete_branch_on_merge: true
-  
-  # Require branches to be up to date before merging
-  # This ensures cleaner rebase merges
-  has_branch_protection: true
 
 # Branch protection rules
 branches:

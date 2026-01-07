@@ -41,7 +41,7 @@ Pull Request를 머지할 때:
 
 - Rebase merge를 사용하면 각 커밋이 대상 브랜치에 개별적으로 적용됩니다
 - 커밋 히스토리를 깔끔하게 유지하려면 PR 전에 커밋을 정리하는 것이 좋습니다
-- Force push가 필요한 경우가 있을 수 있으므로 주의가 필요합니다
+- GitHub의 "Rebase and merge" 버튼을 사용하면 자동으로 리베이스가 처리됩니다
 
 ---
 
@@ -88,4 +88,4 @@ With this configuration applied, rebase merge will be available as a merge metho
 
 - With rebase merge, each commit is applied individually to the target branch
 - It's recommended to clean up commits before PR to maintain clean history
-- Be careful as force push may be required in some cases
+- GitHub's "Rebase and merge" button automatically handles the rebase process
