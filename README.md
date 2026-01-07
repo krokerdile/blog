@@ -13,9 +13,8 @@ hyunu_blog/
 │   ├── ui/                # Shared UI components library
 │   ├── tsconfig/          # Shared TypeScript configurations
 │   └── config/            # Shared ESLint and Prettier configs
-├── pnpm-workspace.yaml    # pnpm workspace configuration
 ├── turbo.json            # Turbo build configuration
-└── package.json          # Root package.json
+└── package.json          # Root package.json with workspaces
 ```
 
 ## 🚀 Getting Started
@@ -23,47 +22,47 @@ hyunu_blog/
 ### Prerequisites
 
 - Node.js >= 18.0.0
-- pnpm >= 8.0.0
+- Yarn >= 1.22.0
 
 ### Installation
 
 ```bash
-# Install pnpm if you haven't already
-npm install -g pnpm
+# Install Yarn if you haven't already
+npm install -g yarn
 
 # Install dependencies
-pnpm install
+yarn install
 ```
 
 ### Development
 
 ```bash
 # Run all apps in development mode
-pnpm dev
+yarn dev
 
 # Run specific app
-pnpm --filter @hyunu/blog dev
-pnpm --filter @hyunu/backend dev
+yarn workspace @hyunu/blog dev
+yarn workspace @hyunu/backend dev
 ```
 
 ### Building
 
 ```bash
 # Build all apps
-pnpm build
+yarn build
 
 # Build specific app
-pnpm --filter @hyunu/blog build
+yarn workspace @hyunu/blog build
 ```
 
 ### Linting
 
 ```bash
 # Lint all packages
-pnpm lint
+yarn lint
 
 # Format all files
-pnpm format
+yarn format
 ```
 
 ## 📦 Packages
@@ -105,7 +104,7 @@ Shared tooling configurations:
 
 - **Frontend**: Next.js 16, React 19, Tailwind CSS
 - **Backend**: Express.js, TypeScript
-- **Build System**: Turbo, pnpm workspaces
+- **Build System**: Turbo, Yarn workspaces
 - **Language**: TypeScript
 - **Styling**: Tailwind CSS
 
@@ -114,15 +113,15 @@ Shared tooling configurations:
 1. Create a new directory in `packages/` or `apps/`
 2. Add a `package.json` with the name `@hyunu/<package-name>`
 3. Configure `tsconfig.json` extending from `@hyunu/tsconfig`
-4. Run `pnpm install` to link the workspace
+4. Run `yarn install` to link the workspace
 
 ## 🔧 Scripts
 
-- `pnpm dev` - Start all apps in development mode
-- `pnpm build` - Build all apps
-- `pnpm lint` - Lint all packages
-- `pnpm format` - Format all files
-- `pnpm clean` - Clean all build artifacts
+- `yarn dev` - Start all apps in development mode
+- `yarn build` - Build all apps
+- `yarn lint` - Lint all packages
+- `yarn format` - Format all files
+- `yarn clean` - Clean all build artifacts
 
 ## 📄 License
 

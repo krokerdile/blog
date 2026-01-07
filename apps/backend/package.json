@@ -17,7 +17,7 @@
     "dotenv": "^16.3.1"
   },
   "devDependencies": {
-    "@hyunu/tsconfig": "workspace:*",
+    "@hyunu/tsconfig": "*",
     "@types/express": "^4.17.21",
     "@types/cors": "^2.8.17",
     "@types/node": "^20.10.6",

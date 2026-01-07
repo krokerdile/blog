@@ -25,8 +25,8 @@ hyunu_blog/
 
 2. **Install Dependencies**
    ```bash
-   npm install -g pnpm
-   pnpm install
+   npm install -g yarn
+   yarn install
    ```
 
 3. **Create a Branch**
@@ -40,8 +40,8 @@ hyunu_blog/
 
 - We use Prettier for formatting
 - We use ESLint for linting
-- Run `pnpm format` before committing
-- Run `pnpm lint` to check for issues
+- Run `yarn format` before committing
+- Run `yarn lint` to check for issues
 
 ### Commit Messages
 
@@ -61,10 +61,10 @@ chore: update dependencies
 
 ```bash
 # Build all packages
-pnpm build
+yarn build
 
 # Test in development mode
-pnpm dev
+yarn dev
 ```
 
 ## Submitting Changes

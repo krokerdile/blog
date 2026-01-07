@@ -17,18 +17,18 @@ This guide covers common development workflows in the Hyunu Blog monorepo.
 ### 1. Install Dependencies
 
 ```bash
-# Install pnpm if you haven't already
-npm install -g pnpm
+# Install yarn if you haven't already
+npm install -g yarn
 
 # Install all dependencies
-pnpm install
+yarn install
 ```
 
 ### 2. Verify Installation
 
 ```bash
 # Build all packages and apps
-pnpm build
+yarn build
 ```
 
 ## Daily Development
@@ -37,7 +37,7 @@ pnpm build
 
 ```bash
 # Start all apps in development mode (blog + backend)
-pnpm dev
+yarn dev
 ```
 
 This will start:
@@ -48,23 +48,23 @@ This will start:
 
 ```bash
 # Start only the blog
-pnpm --filter @hyunu/blog dev
+yarn --filter @hyunu/blog dev
 
 # Start only the backend
-pnpm --filter @hyunu/backend dev
+yarn --filter @hyunu/backend dev
 ```
 
 ### Build Specific App
 
 ```bash
 # Build the blog
-pnpm --filter @hyunu/blog build
+yarn --filter @hyunu/blog build
 
 # Build the backend
-pnpm --filter @hyunu/backend build
+yarn --filter @hyunu/backend build
 
 # Build the UI package
-pnpm --filter @hyunu/ui build
+yarn --filter @hyunu/ui build
 ```
 
 ## Adding New Packages
@@ -114,7 +114,7 @@ cd packages/new-package
 
 ```bash
 # From the root directory
-pnpm install
+yarn install
 ```
 
 ## Adding New Apps
@@ -197,7 +197,7 @@ export * from './NewComponent';
 3. Build the UI package:
 
 ```bash
-pnpm --filter @hyunu/ui build
+yarn --filter @hyunu/ui build
 ```
 
 ### Using UI Components in Apps
@@ -220,19 +220,19 @@ function MyPage() {
 ### Lint All Packages
 
 ```bash
-pnpm lint
+yarn lint
 ```
 
 ### Format All Files
 
 ```bash
-pnpm format
+yarn format
 ```
 
 ### Clean Build Artifacts
 
 ```bash
-pnpm clean
+yarn clean
 ```
 
 ## Deployment
@@ -241,7 +241,7 @@ pnpm clean
 
 ```bash
 # Build all apps
-pnpm build
+yarn build
 ```
 
 ### Blog Deployment (Vercel)
@@ -279,16 +279,16 @@ NODE_ENV=production
 
 ```bash
 # Add dependency to specific package
-pnpm --filter @hyunu/blog add package-name
+yarn --filter @hyunu/blog add package-name
 
 # Add dev dependency to specific package
-pnpm --filter @hyunu/blog add -D package-name
+yarn --filter @hyunu/blog add -D package-name
 
 # Add dependency to all packages
-pnpm -r add package-name
+yarn -r add package-name
 
 # Update all dependencies
-pnpm update -r
+yarn update -r
 ```
 
 ### Workspace Protocol
@@ -316,27 +316,27 @@ rm -rf .turbo
 
 ```bash
 # Check workspace structure
-pnpm ls --depth 0
+yarn ls --depth 0
 
 # Check why a package is installed
-pnpm why package-name
+yarn why package-name
 
 # Check for circular dependencies
-pnpm exec madge --circular --extensions ts,tsx apps/blog
+yarn exec madge --circular --extensions ts,tsx apps/blog
 ```
 
 ## Common Issues
 
 ### Issue: Package not found
 
-**Solution:** Run `pnpm install` from the root directory.
+**Solution:** Run `yarn install` from the root directory.
 
 ### Issue: Build fails
 
 **Solution:** Clean and rebuild:
 ```bash
-pnpm clean
-pnpm build
+yarn clean
+yarn build
 ```
 
 ### Issue: TypeScript errors in IDE

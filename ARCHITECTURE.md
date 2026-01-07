@@ -2,7 +2,7 @@
 
 ## Monorepo Structure
 
-The Hyunu Blog project uses a monorepo architecture managed with pnpm workspaces and Turbo for efficient builds.
+The Hyunu Blog project uses a monorepo architecture managed with yarn workspaces and Turbo for efficient builds.
 
 ```
 ┌─────────────────────────────────────────────────────────┐
@@ -66,7 +66,7 @@ The Hyunu Blog project uses a monorepo architecture managed with pnpm workspaces
 
 ## Build System
 
-### pnpm Workspaces
+### yarn Workspaces
 - Efficient dependency management
 - Workspace protocol for internal packages
 - Single lock file for entire monorepo
@@ -129,23 +129,23 @@ The Hyunu Blog project uses a monorepo architecture managed with pnpm workspaces
 
 ## Development Workflow
 
-1. **Install**: `pnpm install` - Install all dependencies
-2. **Develop**: `pnpm dev` - Start all apps in watch mode
-3. **Build**: `pnpm build` - Build all packages and apps
-4. **Lint**: `pnpm lint` - Check code quality
-5. **Format**: `pnpm format` - Format code
+1. **Install**: `yarn install` - Install all dependencies
+2. **Develop**: `yarn dev` - Start all apps in watch mode
+3. **Build**: `yarn build` - Build all packages and apps
+4. **Lint**: `yarn lint` - Check code quality
+5. **Format**: `yarn format` - Format code
 
 ## Deployment Strategy
 
 ### Blog (Frontend)
 - **Platform**: Vercel (recommended) / Netlify / any static host
-- **Build Command**: `pnpm build --filter @hyunu/blog`
+- **Build Command**: `yarn build --filter @hyunu/blog`
 - **Output Directory**: `apps/blog/.next`
 - **Environment**: Edge/Node.js runtime
 
 ### Backend (API)
 - **Platform**: Railway / Render / AWS / Docker
-- **Build Command**: `pnpm build --filter @hyunu/backend`
+- **Build Command**: `yarn build --filter @hyunu/backend`
 - **Start Command**: `node apps/backend/dist/index.js`
 - **Port**: 3001 (configurable via ENV)
 
@@ -206,7 +206,7 @@ The Hyunu Blog project uses a monorepo architecture managed with pnpm workspaces
 - Server-side rendering for initial load
 - Static generation where possible
 - Tree shaking with modern bundlers
-- pnpm for efficient installs
+- yarn for efficient installs
 
 ## Testing Strategy (Future)
 
