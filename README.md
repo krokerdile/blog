@@ -1,137 +1,212 @@
-# hyunu_blog
+# Hyunu's Blog Monorepo
 
-A monorepo featuring multiple backend framework setups for testing and development.
+A modern blog platform built with a monorepo architecture, featuring Next.js frontend, Express backend, and additional backend framework options (Fastify and Koa) for testing and comparison.
 
-## Structure
-
-This monorepo contains three backend implementations using different Node.js frameworks:
+## 📁 Project Structure
 
 ```
 hyunu_blog/
+├── apps/
+│   ├── blog/              # Next.js blog frontend
+│   └── backend/           # Express.js API backend (TypeScript)
 ├── packages/
-│   ├── backend-express/    # Express.js backend
-│   ├── backend-fastify/    # Fastify backend
-│   └── backend-koa/        # Koa backend
-└── package.json
+│   ├── backend-express/   # Express.js backend (JavaScript)
+│   ├── backend-fastify/   # Fastify backend (JavaScript)
+│   ├── backend-koa/       # Koa backend (JavaScript)
+│   ├── ui/                # Shared UI components library
+│   ├── tsconfig/          # Shared TypeScript configurations
+│   └── config/            # Shared ESLint and Prettier configs
+├── turbo.json            # Turbo build configuration
+└── package.json          # Root package.json with workspaces
 ```
 
-## Backend Frameworks
+## 🚀 Getting Started
 
-### 1. Express (Port 3000)
-Express.js - Fast, unopinionated, minimalist web framework for Node.js.
+### Prerequisites
+
+- Node.js >= 18.0.0
+- Yarn >= 1.22.0
+
+### Installation
+
+```bash
+# Install Yarn if you haven't already
+npm install -g yarn
+
+# Install dependencies
+yarn install
+```
+
+### Development
+
+```bash
+# Run all apps in development mode
+yarn dev
+
+# Run specific app
+yarn workspace @hyunu/blog dev
+yarn workspace @hyunu/backend dev
+```
+
+### Building
+
+```bash
+# Build all apps
+yarn build
+
+# Build specific app
+yarn workspace @hyunu/blog build
+```
+
+### Linting
+
+```bash
+# Lint all packages
+yarn lint
+
+# Format all files
+yarn format
+```
+
+## 🔌 Backend Framework Options
+
+This monorepo includes multiple backend framework setups for testing and comparison:
+
+### Primary Backend: @hyunu/backend (apps/backend)
+TypeScript-based Express.js backend with:
+- RESTful API endpoints
+- CORS support
+- Environment configuration
+- Integrated with the monorepo build system
+
+### Alternative Backends for Testing (packages/)
+
+#### 1. Express (Port 3000) - packages/backend-express
+Standalone Express.js backend for framework comparison:
 - Location: `packages/backend-express`
 - Default Port: 3000
 - [Express Documentation](https://expressjs.com/)
 
-### 2. Fastify (Port 3001)
-Fastify - Fast and low overhead web framework, highly focused on performance.
+```bash
+npm run start:express
+# or
+cd packages/backend-express && npm install && npm start
+```
+
+#### 2. Fastify (Port 3001) - packages/backend-fastify
+Fast and low overhead web framework:
 - Location: `packages/backend-fastify`
 - Default Port: 3001
+- Built-in logging with Pino
 - [Fastify Documentation](https://www.fastify.io/)
 
-### 3. Koa (Port 3002)
-Koa - Modern web framework designed by the team behind Express, with async/await support.
+```bash
+npm run start:fastify
+# or
+cd packages/backend-fastify && npm install && npm start
+```
+
+#### 3. Koa (Port 3002) - packages/backend-koa
+Modern web framework with async/await support:
 - Location: `packages/backend-koa`
 - Default Port: 3002
+- Context-based routing
 - [Koa Documentation](https://koajs.com/)
 
-## Quick Start
-
-### Install Dependencies
-
-From the root directory (npm workspaces will handle all packages):
-
 ```bash
-npm install
-```
-
-Or install individually in each package if needed:
-
-```bash
-cd packages/backend-express && npm install
-cd packages/backend-fastify && npm install
-cd packages/backend-koa && npm install
-```
-
-### Running the Servers
-
-Start each backend individually:
-
-```bash
-# Express backend
-npm run start:express
-
-# Fastify backend
-npm run start:fastify
-
-# Koa backend
 npm run start:koa
+# or
+cd packages/backend-koa && npm install && npm start
 ```
 
-Or start from within each package directory:
+### Backend Framework Comparison
 
-```bash
-cd packages/backend-express && npm start
-cd packages/backend-fastify && npm start
-cd packages/backend-koa && npm start
-```
-
-## API Endpoints
-
-All three backends implement the same API endpoints for easy comparison:
+All alternative backends (Express, Fastify, Koa) implement the same REST API for easy comparison:
 
 - `GET /` - Welcome message with framework information
 - `GET /api/health` - Health check endpoint
 - `GET /api/posts` - Get all posts
-- `POST /api/posts` - Create a new post
+- `POST /api/posts` - Create a new post (with validation)
 
-## Testing the APIs
-
-You can test the APIs using curl:
+Test the APIs using curl:
 
 ```bash
 # Test Express (port 3000)
-curl http://localhost:3000/
 curl http://localhost:3000/api/health
-curl http://localhost:3000/api/posts
 
 # Test Fastify (port 3001)
-curl http://localhost:3001/
 curl http://localhost:3001/api/health
-curl http://localhost:3001/api/posts
 
 # Test Koa (port 3002)
-curl http://localhost:3002/
 curl http://localhost:3002/api/health
-curl http://localhost:3002/api/posts
 ```
 
-## Environment Variables
+## 📦 Packages
 
-Each backend can be configured with environment variables:
+### @hyunu/blog
+Next.js-based blog frontend with:
+- Modern UI using Tailwind CSS
+- Shared components from @hyunu/ui
+- TypeScript support
+- Server-side rendering
 
-- `PORT` - Override the default port number
+### @hyunu/backend
+Express.js backend API with:
+- RESTful API endpoints
+- CORS support
+- Environment configuration
+- TypeScript support
 
-Example:
-```bash
-PORT=4000 npm run start:express
-```
+### @hyunu/ui
+Shared UI components library:
+- Button component
+- Card component
+- Fully typed with TypeScript
+- Reusable across all apps
 
-## Development
+### @hyunu/tsconfig
+Centralized TypeScript configurations:
+- Base configuration
+- Next.js specific config
+- Node.js specific config
+- React library config
 
-Each backend package contains:
-- `package.json` - Dependencies and scripts
-- `src/index.js` - Main server file
-- `README.md` - Framework-specific documentation
+### @hyunu/config
+Shared tooling configurations:
+- ESLint configurations
+- Prettier configuration
 
-## Features
+## 🛠️ Tech Stack
 
-- ✅ Three different backend frameworks in one monorepo
-- ✅ Consistent API across all frameworks
-- ✅ Easy to compare performance and development experience
-- ✅ Individual package management
-- ✅ Simple deployment options
+- **Frontend**: Next.js 16, React 19, Tailwind CSS
+- **Backend**: Express.js, TypeScript
+- **Alternative Backends**: Express.js, Fastify, Koa (JavaScript)
+- **Build System**: Turbo, Yarn workspaces
+- **Language**: TypeScript, JavaScript
+- **Styling**: Tailwind CSS
 
-## License
+## 📝 Adding New Packages
+
+1. Create a new directory in `packages/` or `apps/`
+2. Add a `package.json` with the name `@hyunu/<package-name>`
+3. Configure `tsconfig.json` extending from `@hyunu/tsconfig`
+4. Run `yarn install` to link the workspace
+
+## 🔧 Scripts
+
+- `yarn dev` - Start all apps in development mode
+- `yarn build` - Build all apps
+- `yarn lint` - Lint all packages
+- `yarn format` - Format all files
+- `yarn clean` - Clean all build artifacts
+- `yarn start:express` - Start Express backend (port 3000)
+- `yarn start:fastify` - Start Fastify backend (port 3001)
+- `yarn start:koa` - Start Koa backend (port 3002)
+
+## 📄 License
 
 MIT
+
+## 👤 Author
+
+Hyunu
