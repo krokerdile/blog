@@ -31,7 +31,7 @@ export default function Home() {
 
           <div className="mt-8 p-4 bg-zinc-100 dark:bg-zinc-900 rounded-lg w-full">
             <p className="text-sm text-zinc-600 dark:text-zinc-400">
-              This frontend runs on port 3000 by default. Start it with <code className="px-2 py-1 bg-zinc-200 dark:bg-zinc-800 rounded">npm run dev:frontend</code>
+              This frontend runs on port 3000 by default. Start it from the root directory with <code className="px-2 py-1 bg-zinc-200 dark:bg-zinc-800 rounded">npm run dev:frontend</code>
             </p>
           </div>
         </div>

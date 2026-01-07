@@ -38,7 +38,7 @@ export default function Home() {
 
           <div className="mt-8 p-4 bg-blue-50 dark:bg-blue-950 border border-blue-200 dark:border-blue-800 rounded-lg w-full">
             <p className="text-sm text-blue-800 dark:text-blue-200">
-              <strong>Note:</strong> This back-office package runs independently on port 3001. Start it with <code className="px-2 py-1 bg-blue-100 dark:bg-blue-900 rounded">npm run dev:backoffice</code>
+              <strong>Note:</strong> This back-office package runs independently on port 3001. Start it from the root directory with <code className="px-2 py-1 bg-blue-100 dark:bg-blue-900 rounded">npm run dev:backoffice</code>
             </p>
           </div>
         </div>
