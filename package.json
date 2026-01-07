@@ -1,0 +1,20 @@
+{
+  "name": "hyunu-blog",
+  "version": "1.0.0",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "npm run dev --workspaces",
+    "build": "npm run build --workspaces",
+    "dev:frontend": "npm run dev --workspace=packages/frontend",
+    "dev:backoffice": "npm run dev --workspace=packages/backoffice",
+    "build:frontend": "npm run build --workspace=packages/frontend",
+    "build:backoffice": "npm run build --workspace=packages/backoffice"
+  },
+  "devDependencies": {},
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
