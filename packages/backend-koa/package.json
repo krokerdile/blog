@@ -1,0 +1,18 @@
+{
+  "name": "@hyunu-blog/backend-koa",
+  "version": "1.0.0",
+  "description": "Koa backend setup for hyunu_blog monorepo",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "node src/index.js"
+  },
+  "keywords": ["koa", "backend", "api"],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "koa": "^2.15.0",
+    "@koa/router": "^12.0.1",
+    "koa-bodyparser": "^4.4.1"
+  }
+}

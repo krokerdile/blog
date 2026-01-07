@@ -1,0 +1,16 @@
+{
+  "name": "@hyunu-blog/backend-fastify",
+  "version": "1.0.0",
+  "description": "Fastify backend setup for hyunu_blog monorepo",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "node src/index.js"
+  },
+  "keywords": ["fastify", "backend", "api"],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "fastify": "^4.25.2"
+  }
+}
