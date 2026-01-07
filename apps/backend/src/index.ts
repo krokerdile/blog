@@ -39,7 +39,7 @@ app.get('/api/posts', (req: Request, res: Response) => {
     },
     {
       id: 2,
-      title: 'Understanding Next.js 14',
+      title: 'Understanding Next.js 16',
       excerpt: 'Deep dive into the latest features of Next.js',
       author: 'Hyunu',
       date: '2024-01-06',
