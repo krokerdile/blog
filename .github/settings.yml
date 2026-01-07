@@ -1,0 +1,44 @@
+# Repository settings for hyunu_blog
+# This configuration enforces rebase merge strategy for pull requests
+
+repository:
+  # General repository settings
+  name: hyunu_blog
+  description: Hyunu's personal blog repository
+  
+  # Allow merge commits (traditional 3-way merge)
+  has_merge_commits: false
+  
+  # Allow squash merging
+  has_squash_merge: true
+  
+  # Allow rebase merging (this is what we want)
+  has_rebase_merge: true
+  
+  # Automatically delete head branches after pull requests are merged
+  delete_branch_on_merge: true
+  
+  # Require branches to be up to date before merging
+  # This ensures cleaner rebase merges
+  has_branch_protection: true
+
+# Branch protection rules
+branches:
+  - name: main
+    # Require pull request reviews before merging
+    protection:
+      required_pull_request_reviews:
+        dismiss_stale_reviews: true
+        require_code_owner_reviews: false
+        required_approving_review_count: 0
+      
+      # Require status checks to pass before merging
+      required_status_checks:
+        strict: true
+        contexts: []
+      
+      # Enforce all configured restrictions
+      enforce_admins: false
+      
+      # Restrict who can push to this branch
+      restrictions: null
