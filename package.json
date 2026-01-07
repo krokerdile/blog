@@ -1,20 +1,32 @@
 {
-  "name": "hyunu-blog",
-  "version": "1.0.0",
+  "name": "hyunu-blog-monorepo",
+  "version": "0.0.0",
   "private": true,
+  "description": "Hyunu's Blog Monorepo",
   "workspaces": [
+    "apps/*",
     "packages/*"
   ],
   "scripts": {
-    "dev": "npm run dev --workspaces",
-    "build": "npm run build --workspaces",
-    "dev:frontend": "npm run dev --workspace=packages/frontend",
-    "dev:backoffice": "npm run dev --workspace=packages/backoffice",
-    "build:frontend": "npm run build --workspace=packages/frontend",
-    "build:backoffice": "npm run build --workspace=packages/backoffice"
+    "dev": "yarn workspace @hyunu/blog dev & yarn workspace @hyunu/backend dev",
+    "dev:frontend": "yarn workspace frontend dev",
+    "dev:backoffice": "yarn workspace backoffice dev",
+    "build": "yarn workspace @hyunu/ui build && yarn workspace @hyunu/backend build && yarn workspace @hyunu/blog build",
+    "build:ui": "yarn workspace @hyunu/ui build",
+    "build:apps": "yarn workspace @hyunu/backend build && yarn workspace @hyunu/blog build",
+    "build:frontend": "yarn workspace frontend build",
+    "build:backoffice": "yarn workspace backoffice build",
+    "clean": "yarn workspaces run clean",
+    "format": "prettier --write \"**/*.{ts,tsx,md,json}\"",
+    "lint": "yarn workspaces run lint"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "prettier": "^3.1.1",
+    "turbo": "^1.11.2"
+  },
   "engines": {
-    "node": ">=18.0.0"
-  }
+    "node": ">=18.0.0",
+    "yarn": ">=1.22.0"
+  },
+  "packageManager": "yarn@1.22.22"
 }
