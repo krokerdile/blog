@@ -5,7 +5,9 @@
   "description": "Hyunu's Blog Monorepo",
   "scripts": {
     "dev": "pnpm --filter \"./apps/*\" dev",
-    "build": "pnpm --filter \"./apps/*\" build",
+    "build": "pnpm --filter \"./packages/*\" build && pnpm --filter \"./apps/*\" build",
+    "build:ui": "pnpm --filter @hyunu/ui build",
+    "build:apps": "pnpm --filter \"./apps/*\" build",
     "clean": "pnpm -r clean",
     "format": "prettier --write \"**/*.{ts,tsx,md,json}\"",
     "lint": "pnpm -r lint"
