@@ -1,21 +1,15 @@
 import Link from 'next/link';
 import { cn } from '@/lib/utils';
-
-export type Category = {
-  name: string;
-  count: number;
-  slug: string;
-};
-
-// Mock data or pass real data
-const categories: Category[] = [
-  { name: 'Development', count: 12, slug: 'development' },
-  { name: 'Life', count: 5, slug: 'life' },
-  { name: 'Projects', count: 8, slug: 'projects' },
-  { name: 'React', count: 4, slug: 'react' },
-];
+import { getAllCategories, getAllPosts } from '@/lib/posts';
 
 export function Sidebar({ className }: { className?: string }) {
+  const categoriesMap = getAllCategories();
+  const categories = Object.entries(categoriesMap).map(([name, count]) => ({
+    name,
+    count,
+    slug: name.toLowerCase(),
+  }));
+  const totalPosts = getAllPosts().length;
   return (
     <aside className={cn("w-64 flex-shrink-0 hidden lg:block", className)}>
       <div className="sticky top-24 space-y-8">
@@ -31,7 +25,7 @@ export function Sidebar({ className }: { className?: string }) {
                 >
                     <span>All Posts</span>
                     <span className="bg-gray-100 text-gray-600 py-0.5 px-2 rounded-full text-xs group-hover:bg-blue-50 group-hover:text-blue-600">
-                        29
+                        {totalPosts}
                     </span>
                 </Link>
             </li>
