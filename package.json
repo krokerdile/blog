@@ -8,6 +8,10 @@
     "packages/*"
   ],
   "scripts": {
+    "blog:dev": "yarn workspace @hyunu/blog dev",
+    "blog:build": "yarn workspace @hyunu/blog build",
+    "backend:dev": "yarn workspace @hyunu/backend dev",
+    "backend:build": "yarn workspace @hyunu/backend build",
     "dev": "yarn workspace @hyunu/blog dev & yarn workspace @hyunu/backend dev",
     "build": "yarn workspace @hyunu/ui build && yarn workspace @hyunu/backend build && yarn workspace @hyunu/blog build",
     "build:ui": "yarn workspace @hyunu/ui build",
@@ -24,5 +28,8 @@
     "node": ">=18.0.0",
     "yarn": ">=1.22.0"
   },
-  "packageManager": "yarn@1.22.22"
+  "packageManager": "yarn@1.22.22",
+  "dependencies": {
+    "@tailwindcss/typography": "^0.5.19"
+  }
 }
