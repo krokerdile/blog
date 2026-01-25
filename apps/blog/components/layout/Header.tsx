@@ -10,6 +10,7 @@ const navigation = [
   { name: 'Home', href: '/' },
   { name: 'Popular', href: '/#popular' },
   { name: 'Blog', href: '/blog' },
+  { name: 'History', href: '/history' },
   { name: 'Guestbook', href: '/guestbook' },
   { name: 'Resume', href: '/resume' },
 ];
