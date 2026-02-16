@@ -30,15 +30,15 @@ The app will be available at http://localhost:3000
 - `/app` - Next.js App Router pages
 - `/public` - Static assets
 
-## Temporary Backoffice
+## Temporary Admin
 
-- URL: `/backoffice`
+- URL: `/admin`
 - Login uses build-time env variables:
-  - `NEXT_PUBLIC_BACKOFFICE_USERNAME`
-  - `NEXT_PUBLIC_BACKOFFICE_PASSWORD_SHA256`
+  - `NEXT_PUBLIC_ADMIN_USERNAME`
+  - `NEXT_PUBLIC_ADMIN_PASSWORD_SHA256`
 - For GitHub Pages workflow, set repository secrets:
-  - `BACKOFFICE_USERNAME`
-  - `BACKOFFICE_PASSWORD_SHA256`
+  - `ADMIN_USERNAME`
+  - `ADMIN_PASSWORD_SHA256`
 - SHA-256 example:
 
 ```bash

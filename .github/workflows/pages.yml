@@ -39,8 +39,8 @@ jobs:
       - name: Build blog app
         run: yarn workspace @hyunu/blog build
         env:
-          NEXT_PUBLIC_BACKOFFICE_USERNAME: ${{ secrets.BACKOFFICE_USERNAME }}
-          NEXT_PUBLIC_BACKOFFICE_PASSWORD_SHA256: ${{ secrets.BACKOFFICE_PASSWORD_SHA256 }}
+          NEXT_PUBLIC_ADMIN_USERNAME: ${{ secrets.ADMIN_USERNAME }}
+          NEXT_PUBLIC_ADMIN_PASSWORD_SHA256: ${{ secrets.ADMIN_PASSWORD_SHA256 }}
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3

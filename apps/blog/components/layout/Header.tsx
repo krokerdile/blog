@@ -12,7 +12,7 @@ const navigation = [
   { name: 'Posts', href: '/blog/posts' },
   { name: 'History', href: '/history' },
   { name: 'Resume', href: '/resume' },
-  { name: 'Backoffice', href: '/backoffice' },
+  { name: 'Admin', href: '/admin' },
 ];
 
 export function Header() {

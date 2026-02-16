@@ -21,6 +21,17 @@ export type Post = {
 
 export type PostMeta = Omit<Post, 'content'>;
 
+export type EditablePost = {
+  fileName: string;
+  slug: string;
+  title: string;
+  date: string;
+  description: string;
+  tags: string[];
+  category: string;
+  body: string;
+};
+
 export function categoryToSlug(category: string): string {
   return category
     .toLowerCase()
@@ -119,4 +130,32 @@ export function getAllCategories(): Record<string, number> {
 
 export function getPostsByCategorySlug(slug: string): PostMeta[] {
   return getAllPosts().filter((post) => categoryToSlug(post.category || 'Uncategorized') === slug);
+}
+
+export function getAllEditablePosts(): EditablePost[] {
+  if (!fs.existsSync(postsDirectory)) {
+    return [];
+  }
+
+  return fs
+    .readdirSync(postsDirectory)
+    .filter((name) => name.endsWith('.mdx'))
+    .map((fileName) => {
+      const fullPath = path.join(postsDirectory, fileName);
+      const fileContents = fs.readFileSync(fullPath, 'utf8');
+      const { data, content } = matter(fileContents);
+      const slug = fileName.replace(/\.mdx$/, '');
+
+      return {
+        fileName,
+        slug,
+        title: data.title || slug,
+        date: data.date || '',
+        description: data.description || '',
+        tags: data.tags || [],
+        category: data.category || 'General',
+        body: content.trim(),
+      };
+    })
+    .sort((a, b) => (a.date < b.date ? 1 : -1));
 }
