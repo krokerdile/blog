@@ -14,7 +14,7 @@ export default async function Home() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8">
         
         {/* Popular Posts Slider */}
-        <section className="mb-16">
+        <section id="popular" className="mb-16 scroll-mt-24">
            <PopularPostsBanner posts={popularPosts} />
         </section>
 

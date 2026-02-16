@@ -15,6 +15,9 @@ export function PopularPostsBanner({ posts }: PopularPostsBannerProps) {
 
   // Auto-advance
   useEffect(() => {
+    if (posts.length === 0) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
     const timer = setInterval(() => {
       setCurrentIndex((current) => (current + 1) % posts.length);
     }, 5000);
@@ -64,18 +67,22 @@ export function PopularPostsBanner({ posts }: PopularPostsBannerProps) {
       ))}
 
       {/* Navigation Buttons */}
-      <div className="absolute top-1/2 -translate-y-1/2 left-4 z-20 md:opacity-0 md:group-hover:opacity-100 transition-opacity">
-        <button 
+          <div className="absolute top-1/2 -translate-y-1/2 left-4 z-20 md:opacity-0 md:group-hover:opacity-100 transition-opacity">
+        <button
+            type="button"
             onClick={prevSlide}
             className="p-3 rounded-full bg-white/10 backdrop-blur-md text-white hover:bg-white/20 transition-all border border-white/10"
+            aria-label="Show previous popular post"
         >
             <ArrowLeft className="w-6 h-6" />
         </button>
       </div>
       <div className="absolute top-1/2 -translate-y-1/2 right-4 z-20 md:opacity-0 md:group-hover:opacity-100 transition-opacity">
-        <button 
+        <button
+            type="button"
             onClick={nextSlide}
             className="p-3 rounded-full bg-white/10 backdrop-blur-md text-white hover:bg-white/20 transition-all border border-white/10"
+            aria-label="Show next popular post"
         >
             <ArrowRight className="w-6 h-6" />
         </button>

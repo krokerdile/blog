@@ -7,7 +7,6 @@ export function Sidebar({ className }: { className?: string }) {
   const categories = Object.entries(categoriesMap).map(([name, count]) => ({
     name,
     count,
-    slug: name.toLowerCase(),
   }));
   const totalPosts = getAllPosts().length;
   return (
@@ -30,16 +29,13 @@ export function Sidebar({ className }: { className?: string }) {
                 </Link>
             </li>
             {categories.map((category) => (
-                <li key={category.slug}>
-                <Link
-                    href={`/blog/category/${category.slug}`}
-                    className="flex justify-between items-center text-gray-600 hover:text-blue-600 group"
-                >
+                <li key={category.name}>
+                <div className="flex justify-between items-center text-gray-600">
                     <span>{category.name}</span>
-                    <span className="bg-gray-100 text-gray-600 py-0.5 px-2 rounded-full text-xs group-hover:bg-blue-50 group-hover:text-blue-600">
-                    {category.count}
+                    <span className="bg-gray-100 text-gray-600 py-0.5 px-2 rounded-full text-xs">
+                      {category.count}
                     </span>
-                </Link>
+                </div>
                 </li>
             ))}
             </ul>

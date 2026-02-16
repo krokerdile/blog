@@ -11,12 +11,12 @@ const navigation = [
   { name: 'Popular', href: '/#popular' },
   { name: 'Blog', href: '/blog' },
   { name: 'History', href: '/history' },
-  { name: 'Guestbook', href: '/guestbook' },
   { name: 'Resume', href: '/resume' },
 ];
 
 export function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const mobileMenuId = 'mobile-main-menu';
 
   return (
     <header className="bg-white border-b border-gray-200 sticky top-0 z-50">
@@ -39,8 +39,8 @@ export function Header() {
                 {item.name}
               </Link>
             ))}
-             <Button variant="ghost" size="icon" aria-label="Search">
-                <Search className="h-5 w-5 text-gray-500" />
+             <Button type="button" variant="ghost" size="icon" aria-label="Search">
+                <Search className="h-5 w-5 text-gray-500" aria-hidden="true" />
             </Button>
           </div>
 
@@ -50,6 +50,8 @@ export function Header() {
               type="button"
               className="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              aria-expanded={mobileMenuOpen}
+              aria-controls={mobileMenuId}
             >
               <span className="sr-only">Open main menu</span>
               {mobileMenuOpen ? (
@@ -63,7 +65,7 @@ export function Header() {
       </nav>
 
       {/* Mobile Menu */}
-      <div className={cn("md:hidden", mobileMenuOpen ? "block" : "hidden")}>
+      <div id={mobileMenuId} className={cn("md:hidden", mobileMenuOpen ? "block" : "hidden")}>
         <div className="space-y-1 px-4 pb-3 pt-2">
           {navigation.map((item) => (
             <Link
@@ -76,14 +78,16 @@ export function Header() {
             </Link>
           ))}
           <div className="px-3 py-2">
-            <div className="relative">
+            <form className="relative" role="search">
+                <label htmlFor="mobile-search" className="sr-only">Search posts</label>
                 <input 
+                    id="mobile-search"
                     type="text" 
                     placeholder="Search..." 
                     className="w-full rounded-md border border-gray-300 py-2 pl-3 pr-10 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
-                <Search className="absolute right-3 top-2.5 h-4 w-4 text-gray-400" />
-            </div>
+                <Search className="absolute right-3 top-2.5 h-4 w-4 text-gray-400" aria-hidden="true" />
+            </form>
           </div>
         </div>
       </div>

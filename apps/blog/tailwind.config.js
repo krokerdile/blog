@@ -9,8 +9,8 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        sans: ["NanumSquare", "Arial", "Helvetica", "sans-serif"],
-        mono: ["Courier New", "Courier", "monospace"],
+        sans: ["NanumSquare", "Apple SD Gothic Neo", "Noto Sans KR", "sans-serif"],
+        mono: ["JetBrains Mono", "Fira Code", "SFMono-Regular", "Menlo", "monospace"],
       },
     },
   },
