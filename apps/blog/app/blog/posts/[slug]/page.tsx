@@ -2,7 +2,7 @@ import { notFound } from "next/navigation";
 import { PostCard } from "@/components/blog/PostCard";
 import { categoryToSlug, getAllCategories, getAllPosts, getPostsByCategorySlug } from "@/lib/posts";
 
-interface CategoryPageProps {
+interface CategoryPostsPageProps {
   params: Promise<{ slug: string }>;
 }
 
@@ -22,7 +22,7 @@ function formatCategoryName(slug: string): string {
     .join(" ");
 }
 
-export default async function CategoryPage({ params }: CategoryPageProps) {
+export default async function CategoryPostsPage({ params }: CategoryPostsPageProps) {
   const { slug } = await params;
   const posts = getPostsByCategorySlug(slug);
 

@@ -1,21 +1,23 @@
-import { Sidebar } from "@/components/layout/Sidebar";
+import { CategoryTabs } from "@/components/blog/CategoryTabs";
+import { categoryToSlug, getAllCategories, getAllPosts } from "@/lib/posts";
 
 export default function BlogLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const categoriesMap = getAllCategories();
+  const categories = Object.entries(categoriesMap).map(([name, count]) => ({
+    name,
+    count,
+    slug: categoryToSlug(name),
+  }));
+  const totalPosts = getAllPosts().length;
+
   return (
     <div className="min-h-screen max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      <div className="flex gap-8">
-        {/* Left Sidebar - Hidden on mobile, visible on desktop */}
-        <Sidebar className="hidden lg:block w-64 shrink-0" />
-
-        {/* Main Content Area */}
-        <main className="flex-1 min-w-0">
-          {children}
-        </main>
-      </div>
+      <CategoryTabs totalPosts={totalPosts} categories={categories} />
+      <main className="min-w-0">{children}</main>
     </div>
   );
 }

@@ -25,7 +25,7 @@ export default async function Home() {
                 <h2 className="text-3xl font-bold text-gray-900 mb-2">Recent Articles</h2>
                 <p className="text-gray-600">Discover the latest thoughts and tutorials.</p>
             </div>
-            <Link href="/blog" className="text-blue-600 font-medium hover:text-blue-700 hover:underline">
+            <Link href="/blog/posts" className="text-blue-600 font-medium hover:text-blue-700 hover:underline">
                 View all posts →
             </Link>
           </div>

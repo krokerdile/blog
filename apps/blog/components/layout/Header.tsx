@@ -9,7 +9,7 @@ import { Button } from '@hyunu/ui';
 const navigation = [
   { name: 'Home', href: '/' },
   { name: 'Popular', href: '/#popular' },
-  { name: 'Blog', href: '/blog' },
+  { name: 'Posts', href: '/blog/posts' },
   { name: 'History', href: '/history' },
   { name: 'Resume', href: '/resume' },
 ];

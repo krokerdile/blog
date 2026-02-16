@@ -20,7 +20,7 @@ export function Sidebar({ className }: { className?: string }) {
             <ul className="space-y-3">
             <li>
                 <Link 
-                    href="/blog" 
+                    href="/blog/posts" 
                     className="flex justify-between items-center text-gray-600 hover:text-blue-600 group"
                 >
                     <span>All Posts</span>
@@ -32,7 +32,7 @@ export function Sidebar({ className }: { className?: string }) {
             {categories.map((category) => (
                 <li key={category.slug}>
                 <Link
-                  href={`/blog/category/${category.slug}`}
+                  href={`/blog/posts/${category.slug}`}
                   className="flex justify-between items-center text-gray-600 hover:text-blue-600 group"
                 >
                     <span>{category.name}</span>
