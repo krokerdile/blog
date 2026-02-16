@@ -21,6 +21,14 @@ export type Post = {
 
 export type PostMeta = Omit<Post, 'content'>;
 
+export function categoryToSlug(category: string): string {
+  return category
+    .toLowerCase()
+    .trim()
+    .replace(/[^a-z0-9\s-]/g, '')
+    .replace(/\s+/g, '-');
+}
+
 export function getPostSlugs() {
   if (!fs.existsSync(postsDirectory)) {
     return [];
@@ -107,4 +115,8 @@ export function getAllCategories(): Record<string, number> {
   });
   
   return categories;
+}
+
+export function getPostsByCategorySlug(slug: string): PostMeta[] {
+  return getAllPosts().filter((post) => categoryToSlug(post.category || 'Uncategorized') === slug);
 }

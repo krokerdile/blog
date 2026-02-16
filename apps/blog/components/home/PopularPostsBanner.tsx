@@ -3,7 +3,6 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
-import { Button } from '@hyunu/ui';
 import { type PostMeta } from '@/lib/posts';
 
 interface PopularPostsBannerProps {
@@ -40,10 +39,10 @@ export function PopularPostsBanner({ posts }: PopularPostsBannerProps) {
           }`}
         >
           {/* In real app, use post.coverImage. For now, gradient placeholder */}
-          <div className="absolute inset-0 bg-gradient-to-r from-blue-900 to-indigo-900 opacity-90" />
-           <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1499750310159-a51f338a5be4?q=80&w=2070&auto=format&fit=crop')] bg-cover bg-center mix-blend-overlay opacity-30" />
+          <div className="absolute inset-0 bg-gradient-to-r from-blue-900 to-indigo-900 opacity-90 pointer-events-none" />
+           <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1499750310159-a51f338a5be4?q=80&w=2070&auto=format&fit=crop')] bg-cover bg-center mix-blend-overlay opacity-30 pointer-events-none" />
           
-          <div className="absolute inset-0 flex items-center">
+          <div className="absolute inset-0 z-10 flex items-center">
             <div className="max-w-7xl mx-auto px-6 w-full">
                 <div className="max-w-2xl">
                     <span className="inline-block px-3 py-1 rounded-full bg-blue-500/20 text-blue-300 backdrop-blur-sm border border-blue-500/30 text-sm font-medium mb-4">
@@ -55,10 +54,11 @@ export function PopularPostsBanner({ posts }: PopularPostsBannerProps) {
                     <p className="text-lg text-gray-300 mb-8 line-clamp-2">
                         {post.description}
                     </p>
-                    <Link href={`/blog/${post.slug}`}>
-                        <Button variant="primary" size="lg" className="bg-white text-gray-900 hover:bg-gray-100 border-none">
-                            Read Article
-                        </Button>
+                    <Link
+                      href={`/blog/${post.slug}`}
+                      className="inline-flex items-center justify-center rounded-md bg-white px-6 py-3 text-lg font-semibold text-gray-900 transition-colors hover:bg-gray-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-gray-900"
+                    >
+                      Read Article
                     </Link>
                 </div>
             </div>
