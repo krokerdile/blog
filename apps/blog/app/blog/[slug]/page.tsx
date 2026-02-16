@@ -1,4 +1,4 @@
-import { getPostBySlug } from "@/lib/posts";
+import { getAllPosts, getPostBySlug } from "@/lib/posts";
 import { TOC } from "@/components/toc";
 import { notFound } from "next/navigation";
 import { Metadata } from "next";
@@ -6,6 +6,12 @@ import { Calendar, User, Tag } from "lucide-react";
 
 interface PostPageProps {
   params: Promise<{ slug: string }>;
+}
+
+export const dynamicParams = false;
+
+export async function generateStaticParams() {
+  return getAllPosts().map((post) => ({ slug: post.slug }));
 }
 
 export async function generateMetadata({ params }: PostPageProps): Promise<Metadata> {
