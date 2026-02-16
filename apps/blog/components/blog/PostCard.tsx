@@ -14,12 +14,18 @@ export function PostCard({ post, layout = 'list' }: PostCardProps) {
         "group relative bg-white rounded-2xl overflow-hidden hover:shadow-lg transition-all duration-300 border border-gray-100",
         layout === 'list' ? "flex flex-col md:flex-row gap-6 p-6" : "flex flex-col h-full"
     )}>
-      {/* Image Placeholder - In real app, render post.coverImage */}
       <div className={cn(
          "bg-gray-200 shrink-0", 
          layout === 'list' ? "w-full md:w-64 h-48 rounded-xl object-cover" : "w-full h-48"
       )}>
-        {/* <Image /> */}
+        {post.coverImage ? (
+          <img
+            src={post.coverImage}
+            alt={post.title}
+            className="h-full w-full object-cover"
+            loading="lazy"
+          />
+        ) : null}
       </div>
 
       <div className={cn("flex flex-col justify-between flex-1", layout === 'grid' && "p-6")}>

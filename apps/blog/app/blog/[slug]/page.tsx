@@ -43,6 +43,13 @@ export default async function PostPage({ params }: PostPageProps) {
       {/* Main Content */}
       <article className="flex-1 min-w-0 max-w-4xl prose prose-lg prose-blue">
         <header className="mb-8 border-b border-gray-100 pb-8">
+            {post.coverImage ? (
+              <img
+                src={post.coverImage}
+                alt={post.title}
+                className="mb-6 h-72 w-full rounded-2xl object-cover"
+              />
+            ) : null}
             <div className="flex items-center gap-2 mb-4">
                 <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-50 text-blue-700">
                     {post.category}

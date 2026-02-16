@@ -15,6 +15,7 @@ export type Post = {
   description: string;
   tags: string[];
   category: string;
+  coverImage?: string;
   content: any; // MDX content
   readingTime?: string; // Placeholder for future
 };
@@ -29,6 +30,7 @@ export type EditablePost = {
   description: string;
   tags: string[];
   category: string;
+  coverImage?: string;
   body: string;
 };
 
@@ -78,6 +80,7 @@ export async function getPostBySlug(slug: string): Promise<Post> {
     description: data.description,
     tags: data.tags || [],
     category: data.category || 'General',
+    coverImage: data.coverImage || '',
     content,
   };
 }
@@ -103,6 +106,7 @@ export function getAllPosts(): PostMeta[] {
                 description: data.description,
                 tags: data.tags || [],
                 category: data.category || 'General',
+                coverImage: data.coverImage || '',
             };
         })
         .sort((post1, post2) => (post1.date > post2.date ? -1 : 1));
@@ -154,6 +158,7 @@ export function getAllEditablePosts(): EditablePost[] {
         description: data.description || '',
         tags: data.tags || [],
         category: data.category || 'General',
+        coverImage: data.coverImage || '',
         body: content.trim(),
       };
     })

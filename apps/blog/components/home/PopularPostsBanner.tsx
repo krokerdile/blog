@@ -38,9 +38,20 @@ export function PopularPostsBanner({ posts }: PopularPostsBannerProps) {
             index === currentIndex ? 'opacity-100 z-10' : 'opacity-0 z-0'
           }`}
         >
-          {/* In real app, use post.coverImage. For now, gradient placeholder */}
           <div className="absolute inset-0 bg-gradient-to-r from-blue-900 to-indigo-900 opacity-90 pointer-events-none" />
-           <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1499750310159-a51f338a5be4?q=80&w=2070&auto=format&fit=crop')] bg-cover bg-center mix-blend-overlay opacity-30 pointer-events-none" />
+          <div
+            className={`absolute inset-0 bg-cover bg-center mix-blend-overlay pointer-events-none ${
+              post.coverImage ? 'opacity-50' : 'opacity-30'
+            }`}
+            style={
+              post.coverImage
+                ? { backgroundImage: `url(${post.coverImage})` }
+                : {
+                    backgroundImage:
+                      "url('https://images.unsplash.com/photo-1499750310159-a51f338a5be4?q=80&w=2070&auto=format&fit=crop')",
+                  }
+            }
+          />
           
           <div className="absolute inset-0 z-10 flex items-center">
             <div className="max-w-7xl mx-auto px-6 w-full">

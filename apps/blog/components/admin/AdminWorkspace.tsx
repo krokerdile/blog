@@ -1,7 +1,8 @@
 'use client';
 
-import { FormEvent, useMemo, useState } from 'react';
-import type { EditablePost } from '@/lib/posts';
+import { FormEvent, useEffect, useMemo, useState } from 'react';
+import { PostCard } from '@/components/blog/PostCard';
+import type { EditablePost, PostMeta } from '@/lib/posts';
 
 const ADMIN_USERNAME = process.env.NEXT_PUBLIC_ADMIN_USERNAME ?? '';
 const ADMIN_PASSWORD_SHA256 = process.env.NEXT_PUBLIC_ADMIN_PASSWORD_SHA256 ?? '';
@@ -9,6 +10,13 @@ const SESSION_KEY = 'admin-authenticated';
 
 type AdminWorkspaceProps = {
   initialPosts: EditablePost[];
+};
+
+type InlineImage = {
+  id: string;
+  file: File;
+  alt: string;
+  path: string;
 };
 
 function slugify(value: string) {
@@ -28,26 +36,9 @@ async function sha256(value: string) {
     .join('');
 }
 
-function renderPreview(content: string) {
-  return content.split('\n').map((line, index) => {
-    const key = `line-${index}`;
-    const text = line.trim();
-
-    if (!text) return <div key={key} className="h-2" />;
-    if (text.startsWith('### ')) return <h3 key={key} className="mt-4 text-xl font-semibold text-gray-900">{text.slice(4)}</h3>;
-    if (text.startsWith('## ')) return <h2 key={key} className="mt-5 text-2xl font-bold text-gray-900">{text.slice(3)}</h2>;
-    if (text.startsWith('# ')) return <h1 key={key} className="mt-6 text-3xl font-bold text-gray-900">{text.slice(2)}</h1>;
-    if (text.startsWith('- ')) return <li key={key} className="ml-5 list-disc text-gray-700">{text.slice(2)}</li>;
-    if (text.startsWith('```')) return <p key={key} className="rounded bg-gray-100 px-2 py-1 font-mono text-xs text-gray-700">code block</p>;
-    return <p key={key} className="leading-7 text-gray-700">{text}</p>;
-  });
-}
-
 export function AdminWorkspace({ initialPosts }: AdminWorkspaceProps) {
-  const [isAuthed, setIsAuthed] = useState<boolean>(() => {
-    if (typeof window === 'undefined') return false;
-    return window.sessionStorage.getItem(SESSION_KEY) === 'true';
-  });
+  const [isHydrated, setIsHydrated] = useState(false);
+  const [isAuthed, setIsAuthed] = useState(false);
   const [posts, setPosts] = useState(initialPosts);
   const [deletedFiles, setDeletedFiles] = useState<string[]>([]);
   const [editingSlug, setEditingSlug] = useState<string | null>(null);
@@ -59,14 +50,23 @@ export function AdminWorkspace({ initialPosts }: AdminWorkspaceProps) {
 
   const [title, setTitle] = useState('');
   const [slug, setSlug] = useState('');
-  const [date, setDate] = useState(new Date().toISOString().slice(0, 10));
+  const [date, setDate] = useState('');
   const [description, setDescription] = useState('');
   const [category, setCategory] = useState('Development');
+  const [coverImagePath, setCoverImagePath] = useState('');
+  const [coverImageFileName, setCoverImageFileName] = useState('');
   const [tags, setTags] = useState('nextjs, blog');
   const [content, setContent] = useState('# New Post\n\nWrite your post here.');
+  const [inlineImages, setInlineImages] = useState<InlineImage[]>([]);
   const [copyDone, setCopyDone] = useState(false);
 
   const envReady = Boolean(ADMIN_USERNAME && ADMIN_PASSWORD_SHA256);
+
+  useEffect(() => {
+    setIsHydrated(true);
+    setIsAuthed(window.sessionStorage.getItem(SESSION_KEY) === 'true');
+    setDate((prev) => prev || new Date().toISOString().slice(0, 10));
+  }, []);
 
   const fileName = `${slug || slugify(title || 'new-post')}.mdx`;
 
@@ -78,12 +78,29 @@ export function AdminWorkspace({ initialPosts }: AdminWorkspaceProps) {
       .map((t) => `"${t}"`)
       .join(', ');
 
-    return `---\ntitle: "${title || 'Untitled'}"\ndate: "${date}"\ndescription: "${description}"\ntags: [${tagList}]\ncategory: "${category || 'Development'}"\n---\n\n${content}\n`;
-  }, [category, content, date, description, tags, title]);
+    const coverLine = coverImagePath ? `coverImage: "${coverImagePath}"\n` : '';
+
+    return `---\ntitle: "${title || 'Untitled'}"\ndate: "${date}"\ndescription: "${description}"\ntags: [${tagList}]\ncategory: "${category || 'Development'}"\n${coverLine}---\n\n${content}\n`;
+  }, [category, content, coverImagePath, date, description, tags, title]);
 
   const deleteCommands = useMemo(
     () => deletedFiles.map((name) => `git rm apps/blog/content/blog/${name}`),
     [deletedFiles]
+  );
+  const previewPost: PostMeta = useMemo(
+    () => ({
+      slug: slug || slugify(title || 'new-post'),
+      title: title || 'Untitled',
+      date,
+      description,
+      category: category || 'General',
+      coverImage: coverImagePath,
+      tags: tags
+        .split(',')
+        .map((t) => t.trim())
+        .filter(Boolean),
+    }),
+    [category, coverImagePath, date, description, slug, tags, title]
   );
 
   async function onLogin(e: FormEvent) {
@@ -119,8 +136,11 @@ export function AdminWorkspace({ initialPosts }: AdminWorkspaceProps) {
     setDate(post.date);
     setDescription(post.description);
     setCategory(post.category);
+    setCoverImagePath(post.coverImage || '');
+    setCoverImageFileName(post.coverImage ? post.coverImage.split('/').pop() || '' : '');
     setTags(post.tags.join(', '));
     setContent(post.body || '');
+    setInlineImages([]);
     setShowPreview(false);
   }
 
@@ -149,6 +169,52 @@ export function AdminWorkspace({ initialPosts }: AdminWorkspaceProps) {
     a.download = name;
     a.click();
     URL.revokeObjectURL(url);
+  }
+
+  function downloadSourceFile(file: File) {
+    const url = URL.createObjectURL(file);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = file.name;
+    a.click();
+    URL.revokeObjectURL(url);
+  }
+
+  function handleCoverImageFile(file: File | undefined) {
+    if (!file) return;
+    const safeName = file.name.toLowerCase().replace(/\s+/g, '-');
+    const safeSlug = slug || slugify(title || 'new-post');
+    const path = `/uploads/${safeSlug}/${safeName}`;
+    setCoverImageFileName(file.name);
+    setCoverImagePath(path);
+  }
+
+  function handleInlineFiles(fileList: FileList | null) {
+    if (!fileList?.length) return;
+    const safeSlug = slug || slugify(title || 'new-post');
+    const items = Array.from(fileList).map((file, index) => {
+      const safeName = file.name.toLowerCase().replace(/\s+/g, '-');
+      return {
+        id: `${Date.now()}-${index}-${safeName}`,
+        file,
+        alt: file.name.replace(/\.[^/.]+$/, ''),
+        path: `/uploads/${safeSlug}/${safeName}`,
+      };
+    });
+    setInlineImages((prev) => [...prev, ...items]);
+  }
+
+  function appendInlineImageMarkdown(image: InlineImage) {
+    const snippet = `![${image.alt}](${image.path})`;
+    setContent((prev) => `${prev.trim()}\n\n${snippet}\n`);
+  }
+
+  if (!isHydrated) {
+    return (
+      <div className="min-h-screen max-w-xl mx-auto px-4 sm:px-6 py-16">
+        <div className="h-8 w-32 rounded bg-gray-200" />
+      </div>
+    );
   }
 
   if (!isAuthed) {
@@ -198,7 +264,7 @@ export function AdminWorkspace({ initialPosts }: AdminWorkspaceProps) {
         </div>
       </section>
 
-      <div className="grid grid-cols-1 gap-6 lg:grid-cols-[1.35fr_0.65fr]">
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-[1.8fr_0.55fr]">
         <section className="space-y-4 rounded-2xl border border-gray-200 bg-white p-5 shadow-sm">
           <div className="flex items-center justify-between">
             <h2 className="text-lg font-semibold text-gray-900">{editingSlug ? `Editing: ${editingSlug}` : 'New Post'}</h2>
@@ -236,6 +302,24 @@ export function AdminWorkspace({ initialPosts }: AdminWorkspaceProps) {
             <span className="mb-1 block font-medium text-gray-700">Category</span>
             <input value={category} onChange={(e) => setCategory(e.target.value)} className="w-full rounded-lg border border-gray-300 px-3 py-2" />
           </label>
+          <div className="rounded-lg border border-gray-200 bg-gray-50 p-3">
+            <p className="mb-2 text-sm font-semibold text-gray-800">Thumbnail Image</p>
+            <input
+              type="file"
+              accept="image/*"
+              onChange={(e) => handleCoverImageFile(e.target.files?.[0])}
+              className="mb-2 block w-full text-xs"
+            />
+            <input
+              value={coverImagePath}
+              onChange={(e) => setCoverImagePath(e.target.value)}
+              placeholder="/uploads/my-post/cover.jpg"
+              className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm"
+            />
+            <p className="mt-1 text-xs text-gray-500">
+              {coverImageFileName ? `Selected: ${coverImageFileName}` : 'No file selected'} · store under `apps/blog/public{coverImagePath || '/uploads/...'}`
+            </p>
+          </div>
           <label className="block text-sm">
             <span className="mb-1 block font-medium text-gray-700">Tags (comma separated)</span>
             <input value={tags} onChange={(e) => setTags(e.target.value)} className="w-full rounded-lg border border-gray-300 px-3 py-2" />
@@ -244,6 +328,38 @@ export function AdminWorkspace({ initialPosts }: AdminWorkspaceProps) {
             <span className="mb-1 block font-medium text-gray-700">Content (MDX)</span>
             <textarea value={content} onChange={(e) => setContent(e.target.value)} rows={14} className="w-full rounded-lg border border-gray-300 px-3 py-2 font-mono text-sm" />
           </label>
+          <div className="rounded-lg border border-gray-200 bg-gray-50 p-3">
+            <p className="mb-2 text-sm font-semibold text-gray-800">Inline Images</p>
+            <input type="file" accept="image/*" multiple onChange={(e) => handleInlineFiles(e.target.files)} className="mb-2 block w-full text-xs" />
+            {inlineImages.length > 0 && (
+              <div className="space-y-2">
+                {inlineImages.map((image) => (
+                  <div key={image.id} className="rounded-md border border-gray-200 bg-white p-2">
+                    <p className="text-xs font-medium text-gray-700">{image.file.name}</p>
+                    <p className="text-xs text-gray-500">{image.path}</p>
+                    <div className="mt-1 flex gap-2">
+                      <button
+                        type="button"
+                        onClick={() => appendInlineImageMarkdown(image)}
+                        className="rounded-md border border-blue-300 bg-blue-50 px-2 py-1 text-xs font-semibold text-blue-700"
+                      >
+                        Insert Markdown
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => downloadSourceFile(image.file)}
+                        className="rounded-md border border-gray-300 bg-white px-2 py-1 text-xs font-semibold text-gray-700"
+                        title="Place this file under apps/blog/public with the shown path."
+                      >
+                        Download Source
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+            <p className="mt-2 text-xs text-gray-500">Place image files in `apps/blog/public/uploads/{'{slug}'}/...` then use generated markdown paths.</p>
+          </div>
         </section>
 
         <section className="space-y-4 rounded-2xl border border-gray-200 bg-white p-5 shadow-sm">
@@ -272,13 +388,8 @@ export function AdminWorkspace({ initialPosts }: AdminWorkspaceProps) {
 
       {showPreview && (
         <section className="mt-6 rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
-          <p className="mb-2 text-xs uppercase tracking-wide text-gray-500">Preview</p>
-          <article className="prose prose-lg max-w-none">
-            <span className="inline-flex items-center rounded-full bg-blue-50 px-2.5 py-0.5 text-xs font-medium text-blue-700">{category}</span>
-            <h1 className="mt-3 text-4xl font-bold text-gray-900">{title || 'Untitled'}</h1>
-            <p className="text-gray-500">{date} · {description}</p>
-            <div className="mt-4 space-y-2">{renderPreview(content)}</div>
-          </article>
+          <p className="mb-4 text-xs uppercase tracking-wide text-gray-500">Preview (PostCard Reuse)</p>
+          <PostCard post={previewPost} layout="list" />
         </section>
       )}
     </div>
